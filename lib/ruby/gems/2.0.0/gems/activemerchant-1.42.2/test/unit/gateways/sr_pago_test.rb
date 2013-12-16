@@ -2,15 +2,14 @@ require 'test_helper'
 
 class SrPagoTest < Test::Unit::TestCase
   def setup
-    @gateway = SrPagoGateway.new(
-                 :login => 'login',
-                 :password => 'password'
-               )
+    @gateway = SrPagoGateway.new()
 
     @credit_card = credit_card
     @amount = 100
 
     @options = {
+      :uid => "MUAyMDExMDMyNDE2NTczNQ==",
+      :test => true,
       :order_id => '1',
       :billing_address => address,
       :description => 'Store Purchase'
@@ -41,9 +40,11 @@ class SrPagoTest < Test::Unit::TestCase
 
   # Place raw successful response from gateway here
   def successful_purchase_response
+    response = "El cargo se efectuó correctamente"
   end
 
   # Place raw failed response from gateway here
   def failed_purchase_response
+    response = "El cargo no se pudo realizar"
   end
 end
