@@ -11,6 +11,8 @@ class RemoteSrPagoTest < Test::Unit::TestCase
     @declined_card = credit_card('4000300011112220')
 
     @options = {
+      :uid => "MUAyMDExMDMyNDE2NTczNQ==",
+      :test => true,
       :order_id => '1',
       :billing_address => address,
       :description => 'Store Purchase'
@@ -20,13 +22,13 @@ class RemoteSrPagoTest < Test::Unit::TestCase
   def test_successful_purchase
     assert response = @gateway.purchase(@amount, @credit_card, @options)
     assert_success response
-    assert_equal 'REPLACE WITH SUCCESS MESSAGE', response.message
+    assert_equal 'El cargo se hizo correctamente', response.message
   end
 
   def test_unsuccessful_purchase
     assert response = @gateway.purchase(@amount, @declined_card, @options)
     assert_failure response
-    assert_equal 'REPLACE WITH FAILED PURCHASE MESSAGE', response.message
+    assert_equal 'El cargo no se pudo realizar', response.message
   end
 
   def test_authorize_and_capture
@@ -42,7 +44,7 @@ class RemoteSrPagoTest < Test::Unit::TestCase
   def test_failed_capture
     assert response = @gateway.capture(@amount, '')
     assert_failure response
-    assert_equal 'REPLACE WITH GATEWAY FAILURE MESSAGE', response.message
+    assert_equal 'No se pudo realizar el cargo correctamente', response.message
   end
 
   def test_invalid_login
@@ -52,6 +54,6 @@ class RemoteSrPagoTest < Test::Unit::TestCase
               )
     assert response = gateway.purchase(@amount, @credit_card, @options)
     assert_failure response
-    assert_equal 'REPLACE WITH FAILURE MESSAGE', response.message
+    assert_equal 'Fallo al intentar autenticar', response.message
   end
 end
